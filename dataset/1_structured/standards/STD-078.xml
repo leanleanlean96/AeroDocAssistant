@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<standard>
+  <id>STD-078</id>
+  <title>РТМ 1523-78. Моменты затяжки резьбовых соединений</title>
+  <type>стандарт</type>
+  <version>1978</version>
+  <status>действующий</status>
+  <issue_date>1978-11-30</issue_date>
+  <sections>
+    <section>
+      <num>4.2</num>
+      <title>Моменты затяжки для стальных болтов</title>
+      <!-- ПРОТИВОРЕЧИЕ: здесь указаны другие значения, чем в STD-189 -->
+      <content>Для болтов М10 класса 10.9 момент затяжки 65-70 Н·м. Для болтов М12 - 110-120 Н·м. Смазка резьбы обязательна.</content>
+      <page>8</page>
+    </section>
+  </sections>
+</standard>

@@ -1,0 +1,52 @@
+{
+  "graph_relations": {
+    "nodes": [
+      {"id": "SPEC-WING-001", "type": "specification", "label": "Спецификация лонжерона"},
+      {"id": "STD-045", "type": "standard", "label": "ГОСТ болты"},
+      {"id": "STD-078", "type": "standard", "label": "Моменты затяжки (старый)"},
+      {"id": "STD-189", "type": "standard", "label": "Моменты затяжки (новый)"},
+      {"id": "DRAW-WING-01", "type": "drawing", "label": "Чертёж лонжерона"},
+      {"id": "MANUAL-REPAIR-WING", "type": "manual", "label": "Руководство ремонта"},
+      {"id": "SPEC-FASTENERS-009", "type": "specification", "label": "Крепеж (устаревший)"},
+      {"id": "REPORT-FATIGUE-TEST-2023", "type": "report", "label": "Отчёт усталость"},
+      {"id": "SPEC-FUS-002", "type": "specification", "label": "Спецификация фюзеляжа"},
+      {"id": "SPEC-LANDING-003", "type": "specification", "label": "Спецификация шасси"}
+    ],
+    "edges": [
+      {"source": "SPEC-WING-001", "target": "STD-045", "relation": "ссылается на стандарт"},
+      {"source": "SPEC-WING-001", "target": "STD-078", "relation": "требует соблюдения"},
+      {"source": "SPEC-WING-001", "target": "DRAW-WING-01", "relation": "использует чертёж"},
+      {"source": "MANUAL-REPAIR-WING", "target": "SPEC-WING-001", "relation": "основан на спецификации"},
+      {"source": "MANUAL-REPAIR-WING", "target": "STD-045", "relation": "ссылается на стандарт"},
+      {"source": "STD-078", "target": "STD-189", "relation": "заменён (противоречие)"},
+      {"source": "SPEC-FASTENERS-009", "target": "SPEC-WING-001", "relation": "устарел, заменён на"},
+      {"source": "SPEC-WING-001", "target": "REPORT-FATIGUE-TEST-2023", "relation": "подтверждён испытаниями"},
+      {"source": "SPEC-FUS-002", "target": "STD-156", "relation": "ссылается на стандарт"},
+      {"source": "SPEC-LANDING-003", "target": "STD-189", "relation": "использует новый стандарт"}
+    ]
+  },
+  "conflicts": [
+    {
+      "doc1": "STD-078",
+      "doc2": "STD-189", 
+      "conflict_type": "противоречие в значениях",
+      "description": "Разные значения моментов затяжки для болтов М10: 65-70 Н·м против 75-80 Н·м",
+      "severity": "высокая"
+    },
+    {
+      "doc1": "SPEC-FASTENERS-009",
+      "doc2": "SPEC-WING-001",
+      "conflict_type": "устаревшая спецификация",
+      "description": "Устаревшая спецификация крепежа ссылается на старые стандарты",
+      "severity": "средняя"
+    }
+  ],
+  "obsolete_links": [
+    {
+      "document": "SPEC-FASTENERS-009",
+      "obsolete_reference": "ГОСТ 1759.4-87",
+      "current_standard": "ГОСТ Р 52644-2006",
+      "description": "Ссылка на отменённый стандарт"
+    }
+  ]
+}

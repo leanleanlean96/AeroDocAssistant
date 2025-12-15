@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<standard>
+  <id>STD-045</id>
+  <title>ГОСТ Р 52644-2006. Болты высокопрочные авиационные</title>
+  <type>стандарт</type>
+  <version>2006</version>
+  <status>действующий</status>
+  <issue_date>2006-05-20</issue_date>
+  <replaces>ГОСТ Р 52644-1998</replaces>
+  <sections>
+    <section>
+      <num>5.1</num>
+      <title>Классификация и обозначения</title>
+      <content>Болты подразделяются на классы прочности: 8.8, 10.9, 12.9. Обозначение включает диаметр, шаг резьбы и класс прочности.</content>
+      <page>12</page>
+    </section>
+    <section>
+      <num>5.2</num>
+      <title>Требования к механическим свойствам</title>
+      <content>Предел прочности на разрыв: для класса 10.9 - не менее 1040 МПа, для класса 12.9 - не менее 1220 МПа. Относительное удлинение не менее 8%.</content>
+      <page>15</page>
+    </section>
+    <section>
+      <num>5.3</num>
+      <title>Методы контроля</title>
+      <content>Контроль твердости по Роквеллу (HRC), испытания на растяжение выборочно 2% от партии. Магнитопорошковый контроль 100% болтов ответственного назначения.</content>
+      <page>18</page>
+    </section>
+  </sections>
+  <referenced_by>["SPEC-WING-001", "MANUAL-REPAIR-WING"]</referenced_by>
+</standard>
