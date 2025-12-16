@@ -1,0 +1,25 @@
+{
+  "name": "aerodoc-assistant",
+  "version": "1.0.0",
+  "description": "Aviation Technical Documentation Assistant",
+  "private": true,
+  "scripts": {
+    "start": "cd frontend && npm start",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && python3 -m uvicorn src.main:app --reload --host 0.0.0.0 --port 8000",
+    "install:frontend": "cd frontend && npm install",
+    "build:frontend": "cd frontend && npm run build",
+    "test:frontend": "cd frontend && npm test"
+  },
+  "keywords": [
+    "aviation",
+    "documentation",
+    "assistant",
+    "rag",
+    "fastapi",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
