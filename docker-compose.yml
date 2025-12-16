@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - SBER_API_KEY=${SBER_API_KEY}
+      - SBER_API_URL=${SBER_API_URL}
+      - CHROMA_DB_PATH=./data/chroma_db
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./src:/app/src
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - aviation-network
+
+networks:
+  aviation-network:
+    driver: bridge

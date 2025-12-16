@@ -1,0 +1,357 @@
+{
+  "info": {
+    "name": "Aviation Technical Documentation API",
+    "description": "API для интеллектуального агента по авиационной технической документации",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health & Info",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/health",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["health"]
+            },
+            "description": "Проверка здоровья приложения"
+          }
+        },
+        {
+          "name": "Get App Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/info",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "info"]
+            },
+            "description": "Информация о приложении"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "Create Document",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Чертеж крыла МС-21\",\n  \"content\": \"Основной чертеж конструкции крыла МС-21 с указанием всех размеров, материалов и допусков. Крыло изготавливается из алюминиевого сплава АМГ6М в соответствии с ГОСТ 4784.\",\n  \"document_type\": \"eskd\",\n  \"doc_number\": \"МС-21-WG-001\",\n  \"version\": \"3.2\",\n  \"author\": \"Конструкторский отдел\",\n  \"tags\": [\"wing\", \"structural\", \"MS-21\"]\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "documents"]
+            },
+            "description": "Создать новый документ"
+          }
+        },
+        {
+          "name": "Get All Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "documents"]
+            },
+            "description": "Получить все документы"
+          }
+        },
+        {
+          "name": "Get Document by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/{{doc_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "documents", "{{doc_id}}"]
+            },
+            "description": "Получить документ по ID"
+          }
+        },
+        {
+          "name": "Update Document",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"version\": \"3.3\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/{{doc_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "documents", "{{doc_id}}"]
+            },
+            "description": "Обновить документ"
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/{{doc_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "documents", "{{doc_id}}"]
+            },
+            "description": "Удалить документ"
+          }
+        },
+        {
+          "name": "Get Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/documents/stats/overview",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "documents", "stats", "overview"]
+            },
+            "description": "Получить статистику по документам"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search & QA",
+      "item": [
+        {
+          "name": "Semantic Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Какие материалы используются при производстве крыла?\",\n  \"top_k\": 5\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/search/semantic",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "search", "semantic"]
+            },
+            "description": "Семантический поиск по документам"
+          }
+        },
+        {
+          "name": "Ask Question (QA)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"Как выполнить техническое обслуживание двигателя?\",\n  \"top_k_context\": 5\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/search/qa",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "search", "qa"]
+            },
+            "description": "Ответить на вопрос с использованием RAG"
+          }
+        },
+        {
+          "name": "Get Conversation History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/search/history/{{session_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "search", "history", "{{session_id}}"]
+            },
+            "description": "Получить историю беседы"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Graph & Consistency",
+      "item": [
+        {
+          "name": "Get Knowledge Graph",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/graph",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "graph"]
+            },
+            "description": "Получить граф знаний"
+          }
+        },
+        {
+          "name": "Add Link Between Documents",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_doc_id\": \"{{source_doc_id}}\",\n  \"target_doc_id\": \"{{target_doc_id}}\",\n  \"link_type\": \"references\",\n  \"confidence\": 0.95,\n  \"description\": \"Чертеж ссылается на требования материала\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8000/api/v1/graph/links",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "graph", "links"]
+            },
+            "description": "Добавить связь между документами"
+          }
+        },
+        {
+          "name": "Get Related Documents",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/graph/related/{{doc_id}}?max_depth=2",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "graph", "related", "{{doc_id}}"],
+              "query": [
+                {
+                  "key": "max_depth",
+                  "value": "2"
+                }
+              ]
+            },
+            "description": "Получить связанные документы"
+          }
+        },
+        {
+          "name": "Find Contradictions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/graph/contradictions",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "graph", "contradictions"]
+            },
+            "description": "Найти потенциальные противоречия в графе"
+          }
+        },
+        {
+          "name": "Check Consistency",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/graph/consistency/{{doc_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "graph", "consistency", "{{doc_id}}"]
+            },
+            "description": "Проверить консистентность документа"
+          }
+        },
+        {
+          "name": "Get Graph Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8000/api/v1/graph/statistics",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8000",
+              "path": ["api", "v1", "graph", "statistics"]
+            },
+            "description": "Получить статистику графа"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "doc_id",
+      "value": "your_doc_id",
+      "type": "string"
+    },
+    {
+      "key": "source_doc_id",
+      "value": "source_id",
+      "type": "string"
+    },
+    {
+      "key": "target_doc_id",
+      "value": "target_id",
+      "type": "string"
+    },
+    {
+      "key": "session_id",
+      "value": "session_123",
+      "type": "string"
+    }
+  ]
+}
