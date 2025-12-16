@@ -55,10 +55,10 @@
 
 .docs-upload-tooltip {
   position: absolute;
-  bottom: 60px;
-  left: 55%;
-  transform: translateX(-50%);
-  padding: 6px 10px;
+  left: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 12px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.8);
   color: #ffffff;
@@ -67,11 +67,15 @@
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease, transform 0.15s ease;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .docs-upload-button:hover .docs-upload-tooltip {
   opacity: 1;
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateY(-50%) translateX(4px);
 }
 
 .hero {
@@ -114,7 +118,10 @@
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 0 4px 8px;
+  padding-right: 21px; /* Резервируем место для скроллбара (17px скроллбар + 4px padding) */
+  margin-right: -17px; /* Компенсируем ширину скроллбара, чтобы контент не сдвигался */
 }
 
 .chat-empty {
@@ -162,10 +169,13 @@
   width: 100%;
   display: flex;
   justify-content: center;
-  position: sticky;
+  position: fixed;
   bottom: 24px;
-  padding-top: 12px;
+  left: 0;
+  right: 0;
+  padding: 12px 24px 0;
   pointer-events: none; /* чтобы чат мог прокручиваться до низа под панелью */
+  z-index: 10;
 }
 
 .input-bar {
@@ -180,58 +190,13 @@
   overflow: hidden;
   pointer-events: auto; /* клики внутри панели остаются активными */
   transition: opacity 0.2s ease;
+  min-height: 58px;
 }
 
-.input-wrapper.animating .input-bar {
-  animation: inputBarFade 3.2s ease forwards;
-}
-
-.plane-flight {
-  position: absolute;
-  bottom: 30px;
-  right: calc(50% - 360px); /* приблизительное положение кнопки отправки */
-  width: 26px;
-  height: 26px;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  color: #7a7a7a;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.plane-flight.run {
-  display: inline-flex;
-  animation: planeRun 3.2s ease-in-out forwards;
-}
-
-@keyframes inputBarFade {
-  0% { opacity: 0; }
-  52% { opacity: 0; }
-  62% { opacity: 1; }
-  100% { opacity: 1; }
-}
-
-@keyframes planeRun {
-  /* Фаза 1 — первый пролет до середины страницы */
-  0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }
-  15%  { transform: translate(-60px, -120px) rotate(-16deg) scale(1); }
-  30%  { transform: translate(-140px, -260px) rotate(8deg); }
-  45%  { transform: translate(120px, -240px) rotate(-4deg) scale(1.04); }
-  50%  { transform: translate(260px, -180px) rotate(0deg) scale(1.04); }
-  /* Фаза 2 — появление поля и горизонтальный пролёт */
-  60%  { transform: translate(340px, -60px) rotate(-6deg) scale(1.02); }
-  /* Фаза 3 — оставшаяся траектория и возврат */
-  72%  { transform: translate(120px, -140px) rotate(12deg) scale(1.02); }
-  85%  { transform: translate(30px, -40px) rotate(-10deg) scale(1.01); }
-  95%  { transform: translate(6px, 4px) rotate(-2deg) scale(1); }
-  100% { transform: translate(0px, 0px) rotate(0deg) scale(1); opacity: 1; }
-}
 
 .input-row {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 12px;
   width: 100%;
 }
@@ -241,19 +206,26 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
+  align-self: center;
+  transition: transform 0.2s ease;
+}
+
+.control-group:hover {
+  transform: translateY(-2px);
 }
 
 .control-label {
   font-size: 11px;
   color: #6a6a6a;
   opacity: 0;
-  transform: translateY(2px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transform: translateY(4px);
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease;
 }
 
 .control-group:hover .control-label {
   opacity: 1;
   transform: translateY(0);
+  color: #4a4a4a;
 }
 
 .text-area-wrapper {
@@ -263,6 +235,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  justify-content: center;
 }
 
 .attachments {
@@ -336,11 +309,15 @@
   border: none;
   outline: none;
   font-size: 16px;
-  line-height: 1.4;
+  line-height: 21px;
   color: #2f2f2f;
   resize: none;
-  padding: 4px 0;
+  padding: 0;
+  margin: 0;
   background: transparent;
+  min-height: 21px;
+  display: block;
+  box-sizing: border-box;
 }
 
 .text-input::placeholder {
@@ -358,6 +335,13 @@
   color: #8c8c8c;
   cursor: pointer;
   padding: 0;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+  margin-top: 16px;
+}
+
+.control-group:hover .icon-button {
+  transform: translateY(-2px);
 }
 
 .icon {
@@ -367,7 +351,6 @@
 
 .send {
   color: #7a7a7a;
-  transform: translateY(-1px);
 }
 
 .send-glyph {

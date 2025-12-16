@@ -7,4 +7,5 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: linear-gradient(135deg, #cfe8ff 0%, #fde1eb 100%);
+  overflow-x: hidden; /* Убираем горизонтальный скроллбар с body */
 }

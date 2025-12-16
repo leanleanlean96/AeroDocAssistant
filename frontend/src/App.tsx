@@ -34,9 +34,9 @@ function App() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
   const inputBarRef = useRef<HTMLDivElement | null>(null);
+  const chatAreaRef = useRef<HTMLDivElement | null>(null);
   const [inputBarHeight, setInputBarHeight] = useState(140);
   const docsFileInputRef = useRef<HTMLInputElement | null>(null);
-  const [planeAnimating, setPlaneAnimating] = useState(false);
 
   const demoReply = useMemo(
     () =>
@@ -77,7 +77,7 @@ function App() {
       content: demoReply,
     };
 
-    setMessages((prev) => [...prev, userMessage, assistantMessage]);
+    // Очищаем поле ввода и файлы сразу, но после добавления сообщений
     setMessage('');
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
@@ -86,7 +86,16 @@ function App() {
       fileInputRef.current.value = '';
     }
     setFiles([]);
-    setPlaneAnimating(true);
+
+    // Добавляем сообщения сразу
+    setMessages((prev) => [...prev, userMessage, assistantMessage]);
+
+    // Принудительно обновляем высоту после очистки в следующем кадре
+    requestAnimationFrame(() => {
+      if (textareaRef.current) {
+        resizeTextarea();
+      }
+    });
   }, [demoReply, message, files]);
 
   const handleKeyDown = useCallback(
@@ -179,6 +188,7 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+
   return (
     <div className="app">
       <div className="content">
@@ -192,33 +202,33 @@ function App() {
           </div>
         </div>
 
-        <div className="chat-area" style={{ paddingBottom: inputBarHeight }}>
-          {messages.length === 0 ? (
-            <div className="chat-empty">Пока нет сообщений. Отправьте текст, чтобы увидеть чат.</div>
-          ) : (
-            <>
-              {messages.map((msg) => {
-                const hasAttachments = msg.role === 'user' && msg.attachments && msg.attachments.length > 0;
+        <div className="chat-area" ref={chatAreaRef} style={{ paddingBottom: inputBarHeight }}>
+            {messages.length === 0 ? (
+              <div className="chat-empty">Пока нет сообщений. Отправьте текст, чтобы увидеть чат.</div>
+            ) : (
+              <>
+                {messages.map((msg) => {
+                  const hasAttachments = msg.role === 'user' && msg.attachments && msg.attachments.length > 0;
 
-                return (
-                  <div key={msg.id} className={`bubble ${msg.role}`}>
-                    {hasAttachments && (
-                      <div className="attachments attachments-inline">
-                        {msg.attachments!.map((file) => (
-                          <div className="attachment-chip" key={file.id}>
-                            <span className="attachment-name">{file.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                    {msg.content && <p className="bubble-text">{msg.content}</p>}
-                  </div>
-                );
-              })}
-              <div style={{ height: inputBarHeight }} />
-              <div ref={chatEndRef} />
-            </>
-          )}
+                  return (
+                    <div key={msg.id} className={`bubble ${msg.role}`}>
+                      {hasAttachments && (
+                        <div className="attachments attachments-inline">
+                          {msg.attachments!.map((file) => (
+                            <div className="attachment-chip" key={file.id}>
+                              <span className="attachment-name">{file.name}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                      {msg.content && <p className="bubble-text">{msg.content}</p>}
+                    </div>
+                  );
+                })}
+                <div style={{ height: inputBarHeight }} />
+                <div ref={chatEndRef} />
+              </>
+            )}
         </div>
       </div>
 
@@ -242,8 +252,8 @@ function App() {
         </button>
       </div>
 
-      <div className={`input-wrapper ${planeAnimating ? 'animating' : ''}`}>
-        <div className="input-bar">
+      <div className="input-wrapper">
+        <div className="input-bar" ref={inputBarRef}>
           <input
             ref={fileInputRef}
             type="file"
@@ -296,7 +306,12 @@ function App() {
             </div>
 
             <div className="control-group">
-              <button className="icon-button send" type="button" aria-label="Отправить" onClick={handleSend}>
+              <button 
+                className="icon-button send" 
+                type="button" 
+                aria-label="Отправить" 
+                onClick={handleSend}
+              >
                 <span className="send-glyph" aria-hidden="true">
                   ✈︎
                 </span>
@@ -304,14 +319,6 @@ function App() {
               <span className="control-label">Отправить</span>
             </div>
           </div>
-        </div>
-
-        <div
-          className={`plane-flight ${planeAnimating ? 'run' : ''}`}
-          aria-hidden="true"
-          onAnimationEnd={() => setPlaneAnimating(false)}
-        >
-          ✈︎
         </div>
       </div>
     </div>
